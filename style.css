@@ -59,57 +59,27 @@ header h1 {
   cursor: pointer;
 }
 
-/* 상태 카드 컨테이너 */
-.status-panel {
+/* 상태 패널 (간결형) */
+.status-panel.compact {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   justify-content: space-between;
-  max-width: 100%;
-  overflow-x: hidden;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-
-/* 상태 카드 개별 */
-.status-card {
-  flex: 1 1 45%;
-  min-width: 140px;
-  background-color: #f5f9ff;
-  border-radius: 12px;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
-  user-select: none;
-  word-break: keep-all;  /* 줄 단위 유지 */
-  overflow-wrap: break-word; /* 너무 긴 텍스트도 자동 줄바꿈 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.status-card:hover {
-  transform: translateY(-4px);
-}
-
-.status-card h3 {
+  flex-wrap: wrap;
+  gap: 0.5rem;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #333;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background-color: #f0f4fa;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.status-card p {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a73e8;
-  width: 100%;
+.status-item {
+  flex: 1 1 22%;
   text-align: center;
-  word-break: break-word;
+  font-weight: 600;
+  color: #1a73e8;
 }
 
-/* 게임 보드 영역 - 좌우 2열 분할 */
+/* 게임 보드 */
 .game-board {
   display: flex;
   gap: 1rem;
@@ -118,7 +88,6 @@ header h1 {
   min-height: 300px;
 }
 
-/* 카드 컬럼 */
 .cards-column {
   flex: 1;
   background-color: #f5f9ff;
@@ -133,7 +102,6 @@ header h1 {
   user-select: none;
 }
 
-/* 카드 스타일 */
 .card {
   background-color: #ffffff;
   border-radius: 10px;
@@ -171,7 +139,7 @@ header h1 {
   cursor: default;
 }
 
-/* 결과창 */
+/* 결과 패널 */
 .result-panel {
   text-align: center;
   background-color: #eaf4ff;
@@ -235,9 +203,11 @@ header h1 {
   display: flex;
   gap: 0.8rem;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.share-buttons button {
+.share-buttons button,
+.share-buttons a {
   background-color: #1a73e8;
   color: white;
   border: none;
@@ -245,10 +215,12 @@ header h1 {
   padding: 0.5rem 1.1rem;
   font-size: 1rem;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
-.share-buttons button:hover {
+.share-buttons button:hover,
+.share-buttons a:hover {
   background-color: #155ab6;
 }
 
@@ -272,22 +244,15 @@ header h1 {
 
 /* 모바일 대응 */
 @media (max-width: 700px) {
-  .status-panel {
+  .status-panel.compact {
     flex-direction: column;
-    padding: 0;
-    gap: 8px;    
+    gap: 0.4rem;
   }
 
-  .status-card {
+  .status-item {
     flex: 1 1 100%;
-    min-width: auto;
-    margin-bottom: 12px;
-  }
-
-  header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+    text-align: left;
+    font-size: 1rem;
   }
 
   .game-board {
@@ -298,14 +263,3 @@ header h1 {
     max-height: none;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
-
-  .card {
-    min-height: 70px;
-    min-width: 100%;
-    font-size: 1.15rem;
-  }
-
-  .share-buttons {
-    flex-wrap: wrap;
-  }
-}
