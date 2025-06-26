@@ -115,6 +115,22 @@ function endGame() {
   document.getElementById('share-link').value = shareURL.toString();
 
   document.getElementById('result').style.display = 'block';
+
+  // 웹 공유 버튼 텍스트 생성
+  if (navigator.share) {
+    const shareBtn = document.getElementById('web-share-btn');
+    shareBtn.style.display = 'inline-block';
+
+    shareBtn.addEventListener('click', () => {
+      navigator.share({
+        title: '영어 단어 게임 결과',
+        text: `내 점수는 ${score}점! "${quote}"\n너도 테스트해봐 👉`,
+        url: shareURL.toString()
+      }).catch((err) => {
+        console.warn('공유 실패:', err);
+      });
+    });
+  }
 }
 
 function getScoreQuote(score) {
@@ -138,24 +154,5 @@ window.onload = () => {
     link.select();
     document.execCommand('copy');
     alert('링크가 복사되었어요!');
-  });
-
-  if (navigator.share) {
-    const shareBtn = document.getElementById('web-share-btn');
-    shareBtn.style.display = 'inline-block';
-    shareBtn.addEventListener('click', () => {
-      navigator.share({
-        title: '영어 단어 게임',
-        text: '내 점수를 확인해보세요!',
-        url: document.getElementById('share-link').value
-      });
-    });
-  }
-
-  // 카카오톡 공유 버튼: 카카오톡 앱으로 공유하도록 구성
-  document.getElementById('kakao-share-btn').addEventListener('click', () => {
-    const link = encodeURIComponent(document.getElementById('share-link').value);
-    const kakaoUrl = `https://sharer.kakao.com/talk/friends/picker/link?link=${link}`;
-    window.open(`https://open.kakao.com/o/someplaceholder?text=${link}`, '_blank');
   });
 };
