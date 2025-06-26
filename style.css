@@ -82,7 +82,12 @@ header h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
   user-select: none;
-  word-break: break-word; /* 긴 텍스트 줄바꿈 */
+  word-break: keep-all;  /* 줄 단위 유지 */
+  overflow-wrap: break-word; /* 너무 긴 텍스트도 자동 줄바꿈 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .status-card:hover {
@@ -99,6 +104,9 @@ header h1 {
   font-size: 1.25rem;
   font-weight: 700;
   color: #1a73e8;
+  width: 100%;
+  text-align: center;
+  word-break: break-word;
 }
 
 /* 게임 보드 영역 - 좌우 2열 분할 */
@@ -266,7 +274,8 @@ header h1 {
 @media (max-width: 700px) {
   .status-panel {
     flex-direction: column;
-    padding: 0 5px;
+    padding: 0;
+    gap: 8px;    
   }
 
   .status-card {
