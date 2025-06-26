@@ -72,6 +72,7 @@ function flipCard(card) {
       mistakes++;
       document.getElementById('mistakes').innerText = mistakes;
       setTimeout(() => {
+        selected.forEach(c => c.classList.remove('selected'));
         selected = [];
       }, 800);
     }
