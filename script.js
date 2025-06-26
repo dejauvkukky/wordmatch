@@ -65,6 +65,7 @@ function flipCard(card) {
       matched.push(b.dataset.value);
       correctCount++;
       document.getElementById('correct-count').innerText = correctCount;
+      selected.forEach(c => c.classList.remove('selected'));
       selected = [];
       if (matched.length === words[level].length * 2) endGame();
     } else {
