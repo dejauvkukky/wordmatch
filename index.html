@@ -6,6 +6,7 @@
   <title>영어 단어 카드 게임</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet" />
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -21,23 +22,11 @@
       </div>
     </header>
 
-    <section class="status-panel" aria-live="polite" aria-atomic="true">
-      <div class="status-card">
-        <h3>정답</h3>
-        <p><span id="correct-count">0</span> / <span id="total-count">0</span></p>
-      </div>
-      <div class="status-card">
-        <h3>시간</h3>
-        <p><span id="timer">0</span>초</p>
-      </div>
-      <div class="status-card">
-        <h3>오답</h3>
-        <p><span id="mistakes">0</span>회</p>
-      </div>
-      <div class="status-card">
-        <h3>점수</h3>
-        <p><span id="score">0</span></p>
-      </div>
+    <section class="status-panel compact" aria-live="polite" aria-atomic="true">
+      <div class="status-item"><strong>정답:</strong> <span id="correct-count">0</span>/<span id="total-count">0</span></div>
+      <div class="status-item"><strong>시간:</strong> <span id="timer">0</span>초</div>
+      <div class="status-item"><strong>오답:</strong> <span id="mistakes">0</span>회</div>
+      <div class="status-item"><strong>점수:</strong> <span id="score">0</span></div>
     </section>
 
     <section id="game-board" class="game-board">
@@ -59,6 +48,7 @@
         <div class="share-buttons">
           <button id="copy-btn" aria-label="링크 복사">🔗 복사</button>
           <button id="web-share-btn" aria-label="기기 공유 기능 사용" style="display:none;">📤 공유</button>
+          <a id="kakao-link-btn" href="https://sharer.kakao.com/talk/friends/picker/link" target="_blank" rel="noopener noreferrer">💬 카카오톡</a>
         </div>
       </div>
       <button id="restart-btn" type="button">다시 시작하기</button>
