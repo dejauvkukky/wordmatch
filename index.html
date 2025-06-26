@@ -3,33 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title> 영어 단어를 맞춰보쟈 </title>
+  <title>영어 단어 카드 게임</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <h1> 영어 단어를 맞춰보쟈 </h1>
-    <select id="level" onchange="initGame()">
-      <option value="easy">초급 (지루하군)</option>
-      <option value="medium">중급 (할만한걸)</option>
-      <option value="hard">상급 (이게나야)</option>
-    </select>
-    <div id="status">
-      <p>정답: <span id="correct-count">0</span> / <span id="total-count">0</span></p>
-      <p>시간: <span id="timer">0</span>초</p>
-      <p>오답: <span id="mistakes">0</span>회</p>
-      <p>점수: <span id="score">0</span></p>
-    </div>
-    <div id="game-board"></div>
-    <div id="result" style="display:none;">
+    <header>
+      <h1>🧠 영어 단어 카드 게임</h1>
+      <div class="level-select">
+        <label for="level">난이도:</label>
+        <select id="level" onchange="initGame()">
+          <option value="easy">초급</option>
+          <option value="medium">중급</option>
+          <option value="hard">상급</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="status-panel">
+      <div class="status-card">
+        <h3>정답</h3>
+        <p><span id="correct-count">0</span> / <span id="total-count">0</span></p>
+      </div>
+      <div class="status-card">
+        <h3>시간</h3>
+        <p><span id="timer">0</span>초</p>
+      </div>
+      <div class="status-card">
+        <h3>오답</h3>
+        <p><span id="mistakes">0</span>회</p>
+      </div>
+      <div class="status-card">
+        <h3>점수</h3>
+        <p><span id="score">0</span></p>
+      </div>
+    </section>
+
+    <section id="game-board" class="game-board"></section>
+
+    <section id="result" class="result-panel" style="display: none;">
       <h2>🎉 게임 종료</h2>
-      <p>총 소요 시간: <span id="final-time"></span>초</p>
-      <p>총 오답 횟수: <span id="final-mistakes"></span>회</p>
-      <p>최종 점수: <span id="final-score"></span></p>
-      <p>공유 링크:</p>
-      <input type="text" id="share-link" readonly />
-    </div>
+      <div class="result-info">
+        <p>총 소요 시간: <strong><span id="final-time"></span>초</strong></p>
+        <p>총 오답 횟수: <strong><span id="final-mistakes"></span>회</strong></p>
+        <p>최종 점수: <strong><span id="final-score"></span></strong></p>
+      </div>
+      <div class="share-section">
+        <label>공유 링크</label>
+        <input type="text" id="share-link" readonly />
+      </div>
+    </section>
   </div>
+
   <script src="words.js"></script>
   <script src="script.js"></script>
 </body>
