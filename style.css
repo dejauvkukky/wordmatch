@@ -118,7 +118,7 @@ header h1 {
   color: #333;
   user-select: none;
   min-height: 60px;
-  min-width: 100px; /* 기존 60px → 100px로 증가 */
+  min-width: 70px; /* 기존 60px → 70px로 증가 */
 }
 
 .card:hover:not(.matched):not(.selected) {
@@ -264,10 +264,4 @@ header h1 {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 
-  .card {
-    min-height: 70px;
-    min-width: 100%;
-    font-size: 1.15rem;
-    padding: 1.2rem;
-  }
-  
+ 
