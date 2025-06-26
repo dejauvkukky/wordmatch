@@ -119,9 +119,6 @@ header h1 {
   user-select: none;
   min-height: 60px;
   min-width: 60px;
-  word-break: break-word;  /* 긴 단어도 자동 줄바꿈 */
-  white-space: normal;     /* 한 줄로 강제하지 않음 */
-  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 }
 
 .card:hover:not(.matched):not(.selected) {
