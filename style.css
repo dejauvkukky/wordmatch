@@ -1,4 +1,4 @@
-/* 기본 스타일 초기화 */
+/* 초기화 */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Pretendard', sans-serif, sans-serif;
+  font-family: 'Pretendard', sans-serif;
   background: linear-gradient(145deg, #f0f4f8, #dbe9f4);
   color: #333;
   min-height: 100vh;
@@ -18,7 +18,7 @@ body {
 .container {
   max-width: 900px;
   width: 100%;
-  background-color: white;
+  background: white;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   padding: 2rem;
@@ -95,13 +95,28 @@ header h1 {
   color: #1a73e8;
 }
 
-/* 게임 보드 */
+/* 게임 보드 영역 - 좌우 2열 분할 */
 .game-board {
-  display: grid;
+  display: flex;
   gap: 1rem;
-  justify-items: center;
-  margin: 1rem 0;
-  /* 카드 갯수 따라 동적으로 설정 */
+  justify-content: center;
+  flex-wrap: nowrap;
+  min-height: 300px;
+}
+
+/* 카드 컬럼 */
+.cards-column {
+  flex: 1;
+  background-color: #f5f9ff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 0.8rem;
+  max-height: 400px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 /* 카드 스타일 */
@@ -113,15 +128,15 @@ header h1 {
   text-align: center;
   cursor: pointer;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   transition: all 0.2s ease;
-  user-select: none;
-  width: 80px;
-  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #333;
+  user-select: none;
+  min-height: 60px;
+  min-width: 60px;
 }
 
 .card:hover:not(.matched):not(.selected) {
@@ -139,6 +154,7 @@ header h1 {
   background-color: #c8e6c9;
   color: #256029;
   pointer-events: none;
+  cursor: default;
 }
 
 /* 결과창 */
@@ -241,7 +257,7 @@ header h1 {
 }
 
 /* 모바일 대응 */
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .status-panel {
     flex-direction: column;
   }
@@ -256,10 +272,19 @@ header h1 {
     align-items: flex-start;
   }
 
+  .game-board {
+    flex-direction: column;
+  }
+
+  .cards-column {
+    max-height: none;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
   .card {
-    width: 60px;
-    height: 60px;
-    font-size: 1rem;
+    min-height: 70px;
+    min-width: 100%;
+    font-size: 1.15rem;
   }
 
   .share-buttons {
