@@ -7,6 +7,8 @@ const words = {
     { en: "sun", ko: "태양" },
     { en: "moon", ko: "달" },
     { en: "tree", ko: "나무" },
+    { en: "daddy", ko: "아뺘" },
+    { en: "raim", ko: "딸랑" },
     { en: "car", ko: "자동차" }
   ],
   medium: [
