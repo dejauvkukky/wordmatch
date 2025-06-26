@@ -7,6 +7,7 @@ const words = {
     { en: "sun", ko: "태양" },
     { en: "moon", ko: "달" },
     { en: "tree", ko: "나무" },
+    { en: "desk", ko: "책상" },
     { en: "car", ko: "자동차" }
   ],
   medium: [
