@@ -33,3 +33,8 @@ body {
   color: #155724;
   cursor: default;
 }
+.card.selected {
+  background-color: #ffeeba;  /* 연노랑 배경 */
+  border-color: #f0ad4e;      /* 주황색 테두리 */
+}
+
