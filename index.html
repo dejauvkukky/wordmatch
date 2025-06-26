@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>영어 단어 카드 게임</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
@@ -21,7 +21,7 @@
       </div>
     </header>
 
-    <section class="status-panel">
+    <section class="status-panel" aria-live="polite" aria-atomic="true">
       <div class="status-card">
         <h3>정답</h3>
         <p><span id="correct-count">0</span> / <span id="total-count">0</span></p>
@@ -40,19 +40,25 @@
       </div>
     </section>
 
-    <section id="game-board" class="game-board"></section>
+    <section id="game-board" class="game-board" aria-label="게임 카드 영역"></section>
 
-    <section id="result" class="result-panel" style="display: none;">
+    <section id="result" class="result-panel" style="display: none;" aria-live="assertive" role="region">
       <h2>🎉 게임 종료</h2>
       <div class="result-info">
         <p>총 소요 시간: <strong><span id="final-time"></span>초</strong></p>
         <p>총 오답 횟수: <strong><span id="final-mistakes"></span>회</strong></p>
         <p>최종 점수: <strong><span id="final-score"></span></strong></p>
+        <p class="fun-quote" id="fun-quote"></p>
       </div>
       <div class="share-section">
-        <label>공유 링크</label>
+        <label for="share-link">공유 링크</label>
         <input type="text" id="share-link" readonly />
+        <div class="share-buttons">
+          <button id="copy-btn" aria-label="링크 복사">🔗 복사</button>
+          <button id="web-share-btn" aria-label="기기 공유 기능 사용" style="display:none;">📤 공유</button>
+        </div>
       </div>
+      <button id="restart-btn" type="button">다시 시작하기</button>
     </section>
   </div>
 
