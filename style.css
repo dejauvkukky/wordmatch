@@ -106,7 +106,7 @@ header h1 {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 1rem;
+  padding: 1rem 1.2rem; /* 좌우 여백을 조금 넓힘 */
   text-align: center;
   cursor: pointer;
   font-weight: 700;
@@ -118,7 +118,7 @@ header h1 {
   color: #333;
   user-select: none;
   min-height: 60px;
-  min-width: 60px;
+  min-width: 100px; /* 기존 60px → 100px로 증가 */
 }
 
 .card:hover:not(.matched):not(.selected) {
@@ -263,3 +263,11 @@ header h1 {
     max-height: none;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
+
+  .card {
+    min-height: 70px;
+    min-width: 100%;
+    font-size: 1.15rem;
+    padding: 1.2rem;
+  }
+  
