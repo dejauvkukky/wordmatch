@@ -22,8 +22,26 @@ const copyBtn = document.getElementById('copy-btn');
 const webShareBtn = document.getElementById('web-share-btn');
 const restartBtn = document.getElementById('restart-btn');
 
+// 쿼리스트링에서 level과 score 읽기
+function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    level: params.get('level'),
+    score: params.get('score'),
+  };
+}
+
+// 게임 초기화
 function initGame() {
-  level = document.getElementById('level').value;
+  const query = getQueryParams();
+
+  // 쿼리스트링에 level이 있으면 선택하고, 없으면 select 박스 값 사용
+  if (query.level && ['easy','medium','hard'].includes(query.level)) {
+    level = query.level;
+    document.getElementById('level').value = level;
+  } else {
+    level = document.getElementById('level').value;
+  }
 
   matched = [];
   mistakes = 0;
@@ -89,8 +107,14 @@ function initGame() {
     timerEl.innerText = time;
     updateScore(time, mistakes);
   }, 1000);
+
+  // 쿼리스트링에 score가 있으면 결과창 표시 (게임 클리어 후 공유 링크로 진입 시)
+  if (query.score) {
+    showResultPanel(parseInt(query.score, 10), 0, 0);
+  }
 }
 
+// 카드 선택 처리
 function selectCard(card) {
   if (card.classList.contains('matched')) return;
 
@@ -136,11 +160,13 @@ function selectCard(card) {
   }
 }
 
+// 점수 업데이트
 function updateScore(time, mistakes) {
   const baseScore = 1000 - (time * 5 + mistakes * 20);
   scoreEl.innerText = baseScore > 0 ? baseScore : 0;
 }
 
+// 결과 멘트
 function getFunQuote(score) {
   if (score >= 900) return "🌟 초능력자 탄생! 넌 진짜 천재야!";
   if (score >= 700) return "👍 잘했어! 거의 프로 수준이야!";
@@ -149,19 +175,14 @@ function getFunQuote(score) {
   return "😂 도전 정신 최고! 다음엔 꼭 성공할 거야!";
 }
 
-function endGame() {
+// 결과 패널 표시 함수
+function showResultPanel(score, time = 0, mistakesCount = 0) {
   clearInterval(timerInterval);
-  const time = Math.floor((Date.now() - startTime) / 1000);
-  const score = Math.max(1000 - (time * 5 + mistakes * 20), 0);
 
   finalTimeEl.innerText = time;
-  finalMistakesEl.innerText = mistakes;
+  finalMistakesEl.innerText = mistakesCount;
   finalScoreEl.innerText = score;
   funQuoteEl.innerText = getFunQuote(score);
-
-  const shareURL = new URL(window.location.href);
-  shareURL.searchParams.set('score', score);
-  shareLinkInput.value = shareURL.toString();
 
   resultPanel.style.display = 'block';
   englishContainer.style.display = 'none';
@@ -174,6 +195,24 @@ function endGame() {
   }
 }
 
+// 게임 종료 처리
+function endGame() {
+  const time = Math.floor((Date.now() - startTime) / 1000);
+  const score = Math.max(1000 - (time * 5 + mistakes * 20), 0);
+
+  showResultPanel(score, time, mistakes);
+
+  // URL에 점수와 난이도 반영
+  const url = new URL(window.location.href);
+  url.searchParams.set('score', score);
+  url.searchParams.set('level', level);
+  window.history.replaceState(null, '', url.toString());
+
+  // 공유 링크 입력창에 반영
+  shareLinkInput.value = url.toString();
+}
+
+// 복사 버튼 이벤트
 copyBtn.onclick = () => {
   shareLinkInput.select();
   navigator.clipboard.writeText(shareLinkInput.value)
@@ -181,6 +220,7 @@ copyBtn.onclick = () => {
     .catch(() => alert('복사에 실패했습니다. 수동으로 복사해주세요.'));
 };
 
+// 웹 공유 버튼 이벤트
 webShareBtn.onclick = () => {
   if (!navigator.share) {
     alert('이 브라우저는 공유 기능을 지원하지 않습니다.');
@@ -193,11 +233,13 @@ webShareBtn.onclick = () => {
   });
 };
 
+// 다시 시작 버튼 이벤트
 restartBtn.onclick = initGame;
 
+// 페이지 로드 시 초기화
 window.onload = initGame;
 
-// 카드 배열 셔플 함수
+// 배열 셔플 함수
 function shuffleArray(arr) {
   for (let i = arr.length -1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i+1));
