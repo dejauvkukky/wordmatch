@@ -1,12 +1,12 @@
-// 게임용 단어 데이터 words는 words.js에 있음
-
-let selected = [];
+let selectedEnglish = null;
+let selectedMeaning = null;
 let matched = [];
 let level = 'easy';
 let startTime, timerInterval, mistakes = 0;
 let correctCount = 0;
 
-const gameBoard = document.getElementById('game-board');
+const englishContainer = document.getElementById('english-cards');
+const meaningContainer = document.getElementById('meaning-cards');
 const correctCountEl = document.getElementById('correct-count');
 const totalCountEl = document.getElementById('total-count');
 const timerEl = document.getElementById('timer');
@@ -16,56 +16,71 @@ const resultPanel = document.getElementById('result');
 const finalTimeEl = document.getElementById('final-time');
 const finalMistakesEl = document.getElementById('final-mistakes');
 const finalScoreEl = document.getElementById('final-score');
-const shareLinkInput = document.getElementById('share-link');
 const funQuoteEl = document.getElementById('fun-quote');
+const shareLinkInput = document.getElementById('share-link');
 const copyBtn = document.getElementById('copy-btn');
 const webShareBtn = document.getElementById('web-share-btn');
 const restartBtn = document.getElementById('restart-btn');
 
 function initGame() {
   level = document.getElementById('level').value;
-  const data = [...words[level]];
-  const cards = [];
 
-  selected = [];
   matched = [];
   mistakes = 0;
   correctCount = 0;
 
+  selectedEnglish = null;
+  selectedMeaning = null;
+
   clearInterval(timerInterval);
+  timerEl.innerText = '0';
   mistakesEl.innerText = '0';
   correctCountEl.innerText = '0';
-  totalCountEl.innerText = data.length.toString();
-  timerEl.innerText = '0';
   scoreEl.innerText = '0';
-  funQuoteEl.innerText = '';
-  resultPanel.style.display = 'none';
-  gameBoard.style.display = 'grid';
+  totalCountEl.innerText = words[level].length;
 
-  // 카드 배열 생성 (영어/한국어 쌍)
-  data.forEach((pair) => {
-    cards.push({ value: pair.en, match: pair.ko, type: 'en' });
-    cards.push({ value: pair.ko, match: pair.en, type: 'ko' });
-  });
+  resultPanel.style.display = 'none';
+  englishContainer.style.display = 'grid';
+  meaningContainer.style.display = 'grid';
+
+  // 카드 초기화
+  englishContainer.innerHTML = '';
+  meaningContainer.innerHTML = '';
+
+  // 카드 배열 복사
+  const wordPairs = [...words[level]];
+  // 영어 단어 카드, 뜻 카드 분리
+  const englishCards = wordPairs.map((w, i) => ({ value: w.en, match: w.ko, index: i }));
+  const meaningCards = wordPairs.map((w, i) => ({ value: w.ko, match: w.en, index: i }));
 
   // 카드 섞기
-  cards.sort(() => 0.5 - Math.random());
+  shuffleArray(englishCards);
+  shuffleArray(meaningCards);
 
-  // 게임 보드 스타일 - 카드 갯수에 맞게 컬럼 수 조절
-  const colCount = Math.ceil(Math.sqrt(cards.length));
-  gameBoard.style.gridTemplateColumns = `repeat(${colCount}, minmax(60px, 1fr))`;
+  // 영어 카드 생성
+  englishCards.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerText = card.value;
+    div.dataset.value = card.value;
+    div.dataset.match = card.match;
+    div.dataset.index = card.index;
+    div.dataset.type = 'en';
+    div.onclick = () => selectCard(div);
+    englishContainer.appendChild(div);
+  });
 
-  gameBoard.innerHTML = '';
-
-  cards.forEach((cardObj, index) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerText = cardObj.value;
-    card.dataset.value = cardObj.value;
-    card.dataset.match = cardObj.match;
-    card.dataset.index = index;
-    card.onclick = () => flipCard(card);
-    gameBoard.appendChild(card);
+  // 뜻 카드 생성
+  meaningCards.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerText = card.value;
+    div.dataset.value = card.value;
+    div.dataset.match = card.match;
+    div.dataset.index = card.index;
+    div.dataset.type = 'ko';
+    div.onclick = () => selectCard(div);
+    meaningContainer.appendChild(div);
   });
 
   startTime = Date.now();
@@ -76,43 +91,54 @@ function initGame() {
   }, 1000);
 }
 
-function flipCard(card) {
-  if (selected.length >= 2 || card.classList.contains('matched') || card.classList.contains('selected')) return;
+function selectCard(card) {
+  if (card.classList.contains('matched')) return;
 
-  card.classList.add('selected');
-  selected.push(card);
+  if (card.dataset.type === 'en') {
+    if (selectedEnglish) selectedEnglish.classList.remove('selected');
+    selectedEnglish = card;
+    card.classList.add('selected');
+  } else {
+    if (selectedMeaning) selectedMeaning.classList.remove('selected');
+    selectedMeaning = card;
+    card.classList.add('selected');
+  }
 
-  if (selected.length === 2) {
-    const [a, b] = selected;
-    if (a.dataset.value === b.dataset.match && b.dataset.value === a.dataset.match) {
-      a.classList.add('matched');
-      b.classList.add('matched');
-      matched.push(a.dataset.value);
-      matched.push(b.dataset.value);
+  if (selectedEnglish && selectedMeaning) {
+    if (selectedEnglish.dataset.match === selectedMeaning.dataset.value) {
+      // 매칭 성공
+      selectedEnglish.classList.add('matched');
+      selectedMeaning.classList.add('matched');
+      matched.push(selectedEnglish.dataset.value);
+      matched.push(selectedMeaning.dataset.value);
       correctCount++;
       correctCountEl.innerText = correctCount;
-      clearSelected();
+      updateScore(Math.floor((Date.now() - startTime) / 1000), mistakes);
+      selectedEnglish.classList.remove('selected');
+      selectedMeaning.classList.remove('selected');
+      selectedEnglish = null;
+      selectedMeaning = null;
+
       if (matched.length === words[level].length * 2) {
         endGame();
       }
     } else {
+      // 매칭 실패
       mistakes++;
       mistakesEl.innerText = mistakes;
       setTimeout(() => {
-        clearSelected();
+        selectedEnglish.classList.remove('selected');
+        selectedMeaning.classList.remove('selected');
+        selectedEnglish = null;
+        selectedMeaning = null;
       }, 800);
     }
   }
 }
 
-function clearSelected() {
-  selected.forEach(c => c.classList.remove('selected'));
-  selected = [];
-}
-
 function updateScore(time, mistakes) {
-  const score = Math.max(1000 - (time * 5 + mistakes * 20), 0);
-  scoreEl.innerText = score;
+  const baseScore = 1000 - (time * 5 + mistakes * 20);
+  scoreEl.innerText = baseScore > 0 ? baseScore : 0;
 }
 
 function getFunQuote(score) {
@@ -133,15 +159,14 @@ function endGame() {
   finalScoreEl.innerText = score;
   funQuoteEl.innerText = getFunQuote(score);
 
-  // 공유 링크 생성
   const shareURL = new URL(window.location.href);
   shareURL.searchParams.set('score', score);
   shareLinkInput.value = shareURL.toString();
 
   resultPanel.style.display = 'block';
-  gameBoard.style.display = 'none';
+  englishContainer.style.display = 'none';
+  meaningContainer.style.display = 'none';
 
-  // 공유 버튼 표시 여부 결정
   if (navigator.share) {
     webShareBtn.style.display = 'inline-block';
   } else {
@@ -152,12 +177,8 @@ function endGame() {
 copyBtn.onclick = () => {
   shareLinkInput.select();
   navigator.clipboard.writeText(shareLinkInput.value)
-    .then(() => {
-      alert('링크가 복사되었습니다!');
-    })
-    .catch(() => {
-      alert('복사에 실패했습니다. 수동으로 복사해주세요.');
-    });
+    .then(() => alert('링크가 복사되었습니다!'))
+    .catch(() => alert('복사에 실패했습니다. 수동으로 복사해주세요.'));
 };
 
 webShareBtn.onclick = () => {
@@ -172,8 +193,14 @@ webShareBtn.onclick = () => {
   });
 };
 
-restartBtn.onclick = () => {
-  initGame();
-};
+restartBtn.onclick = initGame;
 
 window.onload = initGame;
+
+// 카드 배열 셔플 함수
+function shuffleArray(arr) {
+  for (let i = arr.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
