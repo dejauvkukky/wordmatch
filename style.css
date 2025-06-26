@@ -59,19 +59,22 @@ header h1 {
   cursor: pointer;
 }
 
-/* 상태 카드 */
+/* 상태 카드 컨테이너 */
 .status-panel {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 12px;
   justify-content: space-between;
-  max-width: 100%;         /* 수정: 화면 너비 내로 제한 */
-  overflow-x: hidden;      /* 수정: 가로 넘침 방지 */
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
+/* 상태 카드 개별 */
 .status-card {
-  flex: 1 1 20%;
-  min-width: 100px;
+  flex: 1 1 45%;
+  min-width: 140px;
   background-color: #f5f9ff;
   border-radius: 12px;
   padding: 1rem;
@@ -79,6 +82,7 @@ header h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
   user-select: none;
+  word-break: break-word; /* 긴 텍스트 줄바꿈 */
 }
 
 .status-card:hover {
@@ -261,12 +265,14 @@ header h1 {
 /* 모바일 대응 */
 @media (max-width: 700px) {
   .status-panel {
-    flex-direction: column;   /* 수정: 세로 정렬 */
+    flex-direction: column;
+    padding: 0 5px;
   }
 
   .status-card {
-    flex: 1 1 100%;          /* 수정: 한 줄 가득 채우기 */
-    min-width: auto;         /* 기존 min-width 제거 */
+    flex: 1 1 100%;
+    min-width: auto;
+    margin-bottom: 12px;
   }
 
   header {
