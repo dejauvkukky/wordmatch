@@ -237,7 +237,15 @@ webShareBtn.onclick = () => {
 restartBtn.onclick = initGame;
 
 // 페이지 로드 시 초기화
-window.onload = initGame;
+window.onload = () => {
+  initGame();
+
+  // 다시 시작 버튼 동작 연결
+  document.getElementById('restart-btn').addEventListener('click', () => {
+    document.getElementById('result').style.display = 'none';
+    initGame();
+  });
+};
 
 // 배열 셔플 함수
 function shuffleArray(arr) {
