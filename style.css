@@ -1,0 +1,35 @@
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #eef2f3;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+#game-board {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.card {
+  width: 100px;
+  height: 60px;
+  background: white;
+  border: 2px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.card.matched {
+  background: #d4edda;
+  color: #155724;
+  cursor: default;
+}

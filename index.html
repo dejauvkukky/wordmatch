@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>단어 암기 마작 게임 (v2)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>단어 암기 마작 게임</h1>
+    <select id="level" onchange="initGame()">
+      <option value="easy">초급 (8단어)</option>
+      <option value="medium">중급 (12단어)</option>
+      <option value="hard">상급 (16단어)</option>
+    </select>
+    <div id="status">
+      <p>정답: <span id="correct-count">0</span> / <span id="total-count">0</span></p>
+      <p>시간: <span id="timer">0</span>초</p>
+      <p>오답: <span id="mistakes">0</span>회</p>
+      <p>점수: <span id="score">0</span></p>
+    </div>
+    <div id="game-board"></div>
+    <div id="result" style="display:none;">
+      <h2>🎉 게임 종료</h2>
+      <p>총 소요 시간: <span id="final-time"></span>초</p>
+      <p>총 오답 횟수: <span id="final-mistakes"></span>회</p>
+      <p>최종 점수: <span id="final-score"></span></p>
+      <p>공유 링크:</p>
+      <input type="text" id="share-link" readonly />
+    </div>
+  </div>
+  <script src="words.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
