@@ -53,6 +53,7 @@ function initGame() {
 
 function flipCard(card) {
   if (selected.length >= 2 || card.classList.contains('matched')) return;
+  card.classList.add('selected');
   selected.push(card);
 
   if (selected.length === 2) {
