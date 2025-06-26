@@ -122,8 +122,6 @@ header h1 {
   word-break: break-word;  /* 긴 단어도 자동 줄바꿈 */
   white-space: normal;     /* 한 줄로 강제하지 않음 */
   overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
-  max-width: 100%;         /* 카드 영역 내에서 최대 너비 제한 */
-  box-sizing: border-box;  /* 패딩 포함 너비 계산 */
 }
 
 .card:hover:not(.matched):not(.selected) {
