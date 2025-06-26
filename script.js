@@ -107,11 +107,9 @@ function endGame() {
   document.getElementById('final-score').innerText = score;
   document.getElementById('score').innerText = score;
 
-  // 멘트 추가
   const quote = getScoreQuote(score);
   document.getElementById('fun-quote').innerText = quote;
 
-  // 공유 링크 갱신
   const shareURL = new URL(window.location.href);
   shareURL.searchParams.set('score', score);
   document.getElementById('share-link').value = shareURL.toString();
@@ -127,7 +125,6 @@ function getScoreQuote(score) {
   return "괜찮아요, 연습이 완벽을 만듭니다! 💪";
 }
 
-// 다시 시작 버튼
 window.onload = () => {
   initGame();
 
@@ -136,7 +133,6 @@ window.onload = () => {
     initGame();
   });
 
-  // 복사 버튼
   document.getElementById('copy-btn').addEventListener('click', () => {
     const link = document.getElementById('share-link');
     link.select();
@@ -144,7 +140,6 @@ window.onload = () => {
     alert('링크가 복사되었어요!');
   });
 
-  // Web Share API 지원 시 버튼 표시
   if (navigator.share) {
     const shareBtn = document.getElementById('web-share-btn');
     shareBtn.style.display = 'inline-block';
@@ -156,4 +151,11 @@ window.onload = () => {
       });
     });
   }
+
+  // 카카오톡 공유 버튼: 카카오톡 앱으로 공유하도록 구성
+  document.getElementById('kakao-share-btn').addEventListener('click', () => {
+    const link = encodeURIComponent(document.getElementById('share-link').value);
+    const kakaoUrl = `https://sharer.kakao.com/talk/friends/picker/link?link=${link}`;
+    window.open(`https://open.kakao.com/o/someplaceholder?text=${link}`, '_blank');
+  });
 };
