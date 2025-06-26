@@ -3,7 +3,11 @@ const words = {
     { en: 'apple', ko: '사과' },
     { en: 'dog', ko: '개' },
     { en: 'sun', ko: '태양' },
-    { en: 'book', ko: '책' }
+    { en: 'book', ko: '책' },
+    { en: 'phone', ko: '전화' },
+    { en: 'cat', ko: '고양이' },
+    { en: 'moon', ko: '달' },
+    { en: 'desk', ko: '책상' }
   ],
   medium: [
     { en: 'water', ko: '물' },
